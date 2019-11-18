@@ -115,7 +115,7 @@
 
     function getDataFromGithub(token) {
       token = '' + token;
-      fetch('https://api.github.com/user', { headers: {'Authorization': token}})
+      fetch('https://api.github.com/user', { headers: {'Authorization': `token ${token}`}})
       .then(res => res.json())
       .then(data => {
         const { login } = data;
