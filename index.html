@@ -100,13 +100,27 @@
     const anchorTag = document.getElementById('login-github')
     const outputText = document.getElementById('output')
     anchorTag.addEventListener('click', (e) => {
-      //e.preventDefault()
       const authenticator = new netlify.default ({});
       authenticator.authenticate({provider:"github", scope: "user"}, (err, data) => {
-        err ? outputText.innerText = "Error Authenticating with GitHub: " + err : 
-        outputText.innerText = "Authenticated with GitHub. Access Token: " + data.token
-      })
-    })
+        if (err) {
+          outputText.innerText = "Error Authenticating with GitHub: " + err;
+        } else {
+          outputText.innerText = "Authenticated with GitHub. Access Token: " + data.token;
+          getDataFromGithub(data.token);
+        }
+        
+      });
+      
+    });
+
+    function getDataFromGithub(token) {
+      fetch('https://api.github.com/user', { headers: {'Authorization': token}})
+      .then(res => res.json())
+      .then(data => {
+        const { login } = data;
+        console.log(login);
+      });
+    }
   </script>
 </body>
 </html>
