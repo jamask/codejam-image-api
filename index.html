@@ -114,6 +114,7 @@
     });
 
     function getDataFromGithub(token) {
+      token = '' + token;
       fetch('https://api.github.com/user', { headers: {'Authorization': token}})
       .then(res => res.json())
       .then(data => {
