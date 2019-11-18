@@ -97,15 +97,14 @@
   </div>
   <script src="./codejam-image-api/js/main.js"></script>
   <script>
-    const anchorTag = document.getElementById('login-github')
-    const outputText = document.getElementById('output')
+    const anchorTag = document.getElementById('login-github');
+    const outputText = document.getElementById('output');
     anchorTag.addEventListener('click', (e) => {
       const authenticator = new netlify.default ({});
       authenticator.authenticate({provider:"github", scope: "user"}, (err, data) => {
         if (err) {
           outputText.innerText = "Error Authenticating with GitHub: " + err;
         } else {
-          outputText.innerText = "Authenticated with GitHub. Access Token: " + data.token;
           getDataFromGithub(data.token);
         }
         
@@ -114,12 +113,13 @@
     });
 
     function getDataFromGithub(token) {
+      const outputText = document.getElementById('output');
       token = '' + token;
       fetch('https://api.github.com/user', { headers: {'Authorization': `token ${token}`}})
       .then(res => res.json())
       .then(data => {
         const { login } = data;
-        console.log(login);
+        outputText.innerText = `Hello ${login}`;
       });
     }
   </script>
